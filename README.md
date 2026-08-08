@@ -23,6 +23,7 @@ This project mirrors the structure of a diabetes-prediction MLOps capstone, appl
 ├── .github/
 │   └── workflows/
 │       └── ci.yml               # GitHub Actions CI pipeline
+├── screenshots/                 # README screenshots (MLflow, DVC, FastAPI, CI)
 ├── Dockerfile                   # Container image (app + deps + model)
 ├── requirements.txt
 ├── dvc.yaml                     # DVC pipeline definition
@@ -153,6 +154,43 @@ Build + test only — no deployment step.
 | Containerization | Docker |
 | CI/CD | GitHub Actions |
 | Testing | pytest |
+
+## 📸 Project Screenshots
+
+### 1. MLflow Experiment Tracking — Three Training Runs
+The three models (Logistic Regression, Random Forest, Gradient Boosting) logged as separate runs in the `breast-cancer-classification` experiment.
+
+![MLflow runs list](screenshots/mlflow-runs-list.png)
+
+### 2. MLflow Model Registry — Registered Best Model
+The best model registered as `breast-cancer-classifier` (version 1), with each run's logged model shown alongside it.
+
+![MLflow model registry](screenshots/mlflow-models-registry.png)
+
+### 3. MLflow Training Runs — Source & Duration
+All three runs shown with their source script, duration, and logged model, including the registered `breast-cancer-classifier` link on the RandomForest run.
+
+![MLflow training runs](screenshots/mlflow-training-runs.png)
+
+### 4. MLflow Metric Comparison Charts
+Accuracy, F1, precision, recall, and ROC-AUC compared side by side across the three runs.
+
+![MLflow metrics charts](screenshots/mlflow-metrics-charts.png)
+
+### 5. DVC Data Versioning
+`dvc dag` showing the pipeline (`data/breast_cancer.csv.dvc` → `train`) and `dvc status` confirming data and pipelines are up to date.
+
+![DVC dag and status](screenshots/dvc-dag-status.png)
+
+### 6. FastAPI Prediction Endpoint
+`POST /predict` in the Swagger UI, showing the request schema with all 10 tumor features.
+
+![FastAPI predict endpoint](screenshots/fastapi-predict-endpoint.png)
+
+### 7. GitHub Actions CI Pipeline
+A CI run in progress on push to `main`.
+
+![GitHub Actions CI](screenshots/github-actions-ci.png)
 
 ## 📝 Notes on adapting this template
 
