@@ -1,0 +1,41 @@
+name: CI
+
+# Build + test only (no deployment). Runs on every push and PR.
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Train so the model artifact exists for both pytest and the Docker build.
+      # (The dataset is committed via DVC's pointer; here we use the CSV in the
+      #  checkout. If you wire up a DVC remote later, add `dvc pull` before this.)
+      - name: Train model
+        run: python src/train.py
+
+      - name: Run tests
+        run: pytest tests/ -v
+
+      # Confirm the container builds and packages the model successfully.
+      - name: Build Docker image
+        run: docker build -t breast-cancer-mlops-capstone:ci .
+
+      - name: Smoke-test the container
+        run: |
+          docker run -d -p 8000:8000 --name breast-cancer-api breast-cancer-mlops-capstone:ci
+          sleep 8
+          curl -sf http://localhost:8000/health
+          docker rm -f breast-cancer-api

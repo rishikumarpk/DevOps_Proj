@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# MLflow local tracking store (regenerate by re-running training)
+mlruns/
+mlartifacts/
+mlflow.db
+
+# DVC also writes its own .gitignore entries next to tracked files
+# (data/.gitignore, models/.gitignore) so the raw CSV and model artifacts
+# stay out of git -- only the .dvc pointers / dvc.lock are committed.

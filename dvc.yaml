@@ -1,0 +1,14 @@
+# DVC pipeline definition. One stage: train.
+# `dvc dag` shows it; `dvc repro` runs it and records exact input hashes in
+# dvc.lock so a run is fully reproducible.
+stages:
+  train:
+    cmd: python src/train.py
+    deps:
+      - data/breast_cancer.csv
+      - src/train.py
+      - src/utils.py
+    outs:
+      - models/best_model.joblib
+      - models/model_metadata.json
+      - models/metrics_comparison.csv
